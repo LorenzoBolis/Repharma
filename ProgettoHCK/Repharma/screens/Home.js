@@ -18,7 +18,7 @@ const Home = () => {
         title: { fontSize: 24, fontWeight: 'bold', color: '#333' },
         title2: { fontSize: 18, fontWeight: 'bold', color: '#333' },
         divider: { height: 1, width: '100%', backgroundColor: '#ccc', marginVertical: 10 },
-        logo: { width: 210, height: 150 },
+        logo: { width: 250, height: 250 },
         table: { width: '100%', borderWidth: 1, borderColor: '#ddd', borderRadius: 5, overflow: 'hidden', marginTop: 10 },
         tableRowHeader: { flexDirection: 'row', backgroundColor: '#6200ee', paddingVertical: 10 },
         tableRow: { flexDirection: 'row', borderBottomWidth: 1, borderColor: '#ddd', paddingVertical: 10 },
@@ -37,7 +37,7 @@ const Home = () => {
                 <View style={styles.divider} />
 
                 <Image
-                    source={require('../assets/logo.jpg')}
+                    source={require('../assets/logopng.png')}
                     style={styles.logo}
                     resizeMode="contain"
                 />

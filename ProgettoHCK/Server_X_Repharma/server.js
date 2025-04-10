@@ -46,7 +46,7 @@ app.post('/login', async (req, res) => {
   const conn = await pool.getConnection();
   const rows = await conn.query(`SELECT hash FROM dati WHERE username = "${username}"`);
   conn.end();
-
+  // controlla la presenza dell'utente
   if (rows.length === 0) {
       return res.json({ success: false, message: "Utente non trovato" });
   }

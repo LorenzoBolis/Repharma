@@ -16,7 +16,27 @@ const pool = mariadb.createPool({
 
 
 app.post('/signup', async (req, res) => {
-  //DAI CARISSONI
+  const { username, password } = req.body;
+
+  // Controlla se l'username esiste già
+  const conn = await pool.getConnection();
+  const rows = await conn.query(`SELECT * FROM dati WHERE username = "${username}"`);
+  conn.end();
+
+  if (rows.length > 0) {
+      return res.json({ success: false, message: "Username già esistente" });
+  }
+
+  // hash password
+  const hash = await bcrypt.hash(password, 10);
+
+  // dati inseriti nel database
+  const conn2 = await pool.getConnection();
+  await conn2.query(`INSERT INTO dati (username, hash) VALUES ("${username}", "${hash}")`);
+  conn2.end();
+
+  res.json({ success: true });
+  console.log("Registrazione completata con successo!");
 });
 
 app.post('/login', async (req, res) => {

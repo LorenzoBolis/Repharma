@@ -58,7 +58,7 @@ const Home = () => {
                             <Text style={styles.tableCell}>{item.frequency}</Text>
                         </View>
                     ))}
-
+                    
                     <Button title="Aggiungi Medicinale" onPress={() => navigation.navigate('AddMedicine')}/>
                 </View>
             </ScrollView>

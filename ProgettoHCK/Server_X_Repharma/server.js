@@ -82,6 +82,34 @@ app.post('/medicine', async (req, res) => {
   console.log("Inserimento medicinale completato con successo");
 });
 
+// get in base alla mail utente
+app.get('/medicine/:mail', async (req, res) => {
+  const mail = req.params.mail;
+  const conn = await pool.getConnection();
+  const rows = await conn.query(`SELECT * FROM medicinale WHERE mail_utente = "${mail}"`);
+  conn.end();
+
+  if (rows.length === 0) {
+      return res.json({ success: false, message: "Nessun medicinale inserito" });
+  }
+
+  res.json({ success: true, cont: rows });
+});
+
+// in base ad id  -> ?id=10
+app.get('/medicine', async (req, res) => {
+  const {id} = req.query;
+  const conn = await pool.getConnection();
+  const rows = await conn.query(`SELECT * FROM medicinale WHERE id = ?`, [id]);
+  conn.end();
+
+  if (rows.length === 0) {
+      return res.json({ success: false, message: "Nessun medicinale trovato" });
+  }
+
+  res.json({ success: true, cont: rows[0] });
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server avviato su http://localhost:${PORT}`);

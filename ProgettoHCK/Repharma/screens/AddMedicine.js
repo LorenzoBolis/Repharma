@@ -14,7 +14,7 @@ const AddMedicine = () => {
     const aggiunta = async () => {
         const mail_utente = userEmail;
         try {
-            const response = await fetch('http://127.0.0.1:4111/medicine', {
+            const response = await fetch('http://192.168.0.12:4111/medicine', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ nome, quantita, orario, mail_utente }),
@@ -46,6 +46,7 @@ const AddMedicine = () => {
                 value={nome}
                 onChangeText={setName}
                 style={styles.input}
+                maxLength={35}
             />
             <TextInput
                 placeholder="Dosaggio"

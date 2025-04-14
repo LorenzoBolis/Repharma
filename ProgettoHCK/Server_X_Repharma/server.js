@@ -10,21 +10,21 @@ const pool = mariadb.createPool({
      host: 'db.dintra.duckdns.org', 
      user:'Bolis', 
      password: 'b1234b',
-     database: 'boliso',
+     database: 'repharma',
      connectionLimit: 5
 });
 
 
 app.post('/signup', async (req, res) => {
-  const { username, password } = req.body;
+  const { mail, password } = req.body;
 
   // Controlla se l'username esiste già
   const conn = await pool.getConnection();
-  const rows = await conn.query(`SELECT * FROM dati WHERE username = "${username}"`);
+  const rows = await conn.query(`SELECT * FROM utente WHERE mail = "${mail}"`);
   conn.end();
 
   if (rows.length > 0) {
-      return res.json({ success: false, message: "Username già esistente" });
+      return res.json({ success: false, message: "Mail già registrata" });
   }
 
   // hash password
@@ -32,7 +32,7 @@ app.post('/signup', async (req, res) => {
 
   // dati inseriti nel database
   const conn2 = await pool.getConnection();
-  await conn2.query(`INSERT INTO dati (username, hash) VALUES ("${username}", "${hash}")`);
+  await conn2.query(`INSERT INTO utente (mail, hash) VALUES ("${mail}", "${hash}")`);
   conn2.end();
 
   res.json({ success: true });
@@ -41,10 +41,10 @@ app.post('/signup', async (req, res) => {
 
 app.post('/login', async (req, res) => {
   console.log("Ricevuto");
-  const { username, password } = req.body;
+  const { mail, password } = req.body;
 
   const conn = await pool.getConnection();
-  const rows = await conn.query(`SELECT hash FROM dati WHERE username = "${username}"`);
+  const rows = await conn.query(`SELECT hash FROM utente WHERE mail = "${mail}"`);
   conn.end();
   // controlla la presenza dell'utente
   if (rows.length === 0) {
@@ -61,6 +61,25 @@ app.post('/login', async (req, res) => {
   } else {
       res.json({ success: false, message: "Password errata" });
   }
+});
+
+app.post('/medicine', async (req, res) => {
+  const { nome, quantita, orario, mail_utente } = req.body;
+  const conn = await pool.getConnection();
+  const rows = await conn.query(`SELECT hash FROM utente WHERE mail = "${mail_utente}"`);
+  conn.end();
+
+  // controlla la presenza dell'utente
+  if (rows.length === 0) {
+      return res.json({ success: false, message: "Utente non trovato" });
+  }
+
+  const conn2 = await pool.getConnection();
+  await conn2.query(`INSERT INTO medicinale (nome, quantita, orario, mail_utente) VALUES ("${nome}", "${quantita}", "${orario}", "${mail_utente}")`);
+  conn2.end();
+
+  res.json({ success: true });
+  console.log("Inserimento medicinale completato con successo");
 });
 
 

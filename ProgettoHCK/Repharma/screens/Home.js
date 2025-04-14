@@ -1,9 +1,12 @@
-import React from "react";
+import React, {useContext} from "react";
 import { View, Text, SafeAreaView, Button, ScrollView, Image, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { AuthContext } from "../AuthContext";
+
 
 const Home = () => {
     const navigation = useNavigation();
+    const { userEmail, logout } = useContext(AuthContext);
 
     const tableData = [
         { id: 1, name: 'Paracetamolo', dosage: '500mg', frequency: '2 volte al giorno' },
@@ -31,7 +34,11 @@ const Home = () => {
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <View style={styles.header}>
                     <Text style={styles.title}>Repharma</Text>
-                    <Button title="Login" onPress={() => navigation.navigate('Login')} />
+                    {userEmail ? (
+                        <Button title="Logout" onPress={logout} />
+                    ) : (
+                        <Button title="Login" onPress={() => navigation.navigate('Login')} />
+                    )}
                 </View>
 
                 <View style={styles.divider} />
@@ -44,23 +51,25 @@ const Home = () => {
 
                 <Text style={styles.title2}>Medicinali inseriti</Text>
 
-                <View style={styles.table}>
-                    <View style={styles.tableRowHeader}>
-                        <Text style={[styles.tableCellHeader, { flex: 2 }]}>Nome</Text>
-                        <Text style={styles.tableCellHeader}>Dosaggio</Text>
-                        <Text style={styles.tableCellHeader}>Frequenza</Text>
-                    </View>
-
-                    {tableData.map((item) => (
-                        <View key={item.id} style={styles.tableRow}>
-                            <Text style={[styles.tableCell, { flex: 2 }]}>{item.name}</Text>
-                            <Text style={styles.tableCell}>{item.dosage}</Text>
-                            <Text style={styles.tableCell}>{item.frequency}</Text>
+                {userEmail ? (
+                    <View style={styles.table}>
+                        <View style={styles.tableRowHeader}>
+                            <Text style={[styles.tableCellHeader, { flex: 2 }]}>Nome</Text>
+                            <Text style={styles.tableCellHeader}>Dosaggio</Text>
+                            <Text style={styles.tableCellHeader}>Orario</Text>
                         </View>
-                    ))}
-                    
-                    <Button title="Aggiungi Medicinale" onPress={() => navigation.navigate('AddMedicine')}/>
-                </View>
+                        {tableData.map((item) => (
+                            <View key={item.id} style={styles.tableRow}>
+                                <Text style={[styles.tableCell, { flex: 2 }]}>{item.name}</Text>
+                                <Text style={styles.tableCell}>{item.dosage}</Text>
+                                <Text style={styles.tableCell}>{item.frequency}</Text>
+                            </View>
+                        ))}
+                        <Button title="Aggiungi Medicinale" onPress={() => navigation.navigate('AddMedicine')} />
+                    </View>
+                ) : (
+                    <Text style={{ marginTop: 20, color: '#777' }}>Effettua il login per visualizzare i tuoi medicinali</Text>
+                )}
             </ScrollView>
         </SafeAreaView>
     );

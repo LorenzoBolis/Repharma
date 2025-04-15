@@ -62,6 +62,7 @@ const Home = () => {
           ) : (
             <Button title="Login" onPress={() => navigation.navigate('Login')} />
           )}
+          <Button title="PHARMA" onPress={() => navigation.navigate('Farmacie')} />
         </View>
 
         <View style={styles.divider} />

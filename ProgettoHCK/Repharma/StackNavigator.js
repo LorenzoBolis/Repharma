@@ -7,6 +7,7 @@ import Login from "./screens/Login";
 import Signup from "./screens/Signup";
 import AddMedicine from "./screens/AddMedicine";
 import Details from "./screens/Details";
+import Farmacie from "./screens/Farmacie";
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,7 @@ const StackNavigator = () => {
                 <Stack.Screen name="Signup" component={Signup} />
                 <Stack.Screen name="AddMedicine" component={AddMedicine}/>
                 <Stack.Screen name="Details" component={Details}/>
+                <Stack.Screen name="Farmacie" component={Farmacie}/>
             </Stack.Group>
         </Stack.Navigator>
     )

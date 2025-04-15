@@ -110,6 +110,20 @@ app.get('/medicine', async (req, res) => {
   res.json({ success: true, cont: rows[0] });
 });
 
+// in base ad id  -> ?id=10
+app.delete('/medicine', async (req, res) => {
+  const {id} = req.query;
+  const conn = await pool.getConnection();
+  const rows = await conn.query(`DELETE FROM medicinale WHERE id = ?`, [id]);
+  conn.end();
+
+  if (rows.length === 0) {
+      return res.json({ success: false, message: "Nessun medicinale trovato" });
+  }
+
+  res.json({ success: true });
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server avviato su http://localhost:${PORT}`);

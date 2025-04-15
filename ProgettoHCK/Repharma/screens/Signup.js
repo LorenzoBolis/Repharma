@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const richiesta_registrazione = async (mail, password) => {
   try {
-    const response = await fetch('http://192.168.0.12:4111/signup', {
+    const response = await fetch('http://10.1.1.228:4111/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ mail, password }),

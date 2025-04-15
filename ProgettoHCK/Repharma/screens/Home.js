@@ -11,7 +11,7 @@ const Home = () => {
 
   const richiesta = async () => {
     try {
-      const response = await fetch(`http://192.168.0.12:4111/medicine/${userEmail}`, {
+      const response = await fetch(`http://10.1.1.228:4111/medicine/${userEmail}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
       });

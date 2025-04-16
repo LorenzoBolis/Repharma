@@ -17,7 +17,7 @@ const AddMedicine = () => {
     const mail_utente = userEmail;
 
     try {
-      const response = await fetch('http://10.1.1.228:4111/medicine', {
+      const response = await fetch('http://10.1.1.162:4111/medicine', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nome, quantita, orario, mail_utente }),

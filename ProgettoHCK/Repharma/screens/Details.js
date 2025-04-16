@@ -12,7 +12,7 @@ export default function Details({ route }) {
 
   const eliminazione = async() => {
     try {
-      const response = await fetch(`http://10.1.1.228:4111/medicine?id=${id}`, {
+      const response = await fetch(`http://10.1.1.162:4111/medicine?id=${id}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' }
       });
@@ -33,7 +33,7 @@ export default function Details({ route }) {
 
   const richiesta = async () => {
     try {
-      const response = await fetch(`http://10.1.1.228:4111/medicine?id=${id}`, {
+      const response = await fetch(`http://10.1.1.162:4111/medicine?id=${id}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
       });

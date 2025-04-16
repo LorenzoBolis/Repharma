@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Alert, ActivityIndicator, ScrollView, TouchableOpacity, Linking } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
+import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from "@react-navigation/native";
 
 export default function FarmacieVicino() {
   const [location, setLocation] = useState(null);
   const [pharmacies, setPharmacies] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigation = useNavigation();
 
   const fetchPharmacies = async (lat, lon) => {
     try {
@@ -65,6 +68,16 @@ export default function FarmacieVicino() {
 
   return (
     <View style={styles.container}>
+      <View style={styles.topper}>
+        <TouchableOpacity style={styles.closeButton} onPress={() => navigation.goBack()}>
+          <Ionicons name="arrow-back" style={styles.backText} size={24} color="#333" />
+        </TouchableOpacity>
+        <Text style={{fontWeight:'bold', fontSize:20}}>Farmacie</Text>
+        <TouchableOpacity style={styles.closeButton} onPress={() => navigation.navigate('Home')}>
+          <Text style={styles.closeText}>✕</Text>
+        </TouchableOpacity>
+
+      </View>
       <MapView
         style={styles.map}
         initialRegion={{
@@ -121,4 +134,8 @@ const styles = StyleSheet.create({
   details: {
     color: '#666',
   },
+  topper:{ width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10, marginBottom: 10, padding:5, paddingTop:25},
+  closeButton: {  backgroundColor: '#dedede', paddingHorizontal: 10, paddingVertical: 5, borderRadius: 5, zIndex: 1, },
+  closeText: { fontSize: 20, fontWeight: 'bold', color: '#333'},
+  backText: { fontSize: 20, fontWeight: 'bold', color: '#333', paddingVertical:3},
 });

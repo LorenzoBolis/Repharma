@@ -3,6 +3,7 @@ import { View, Text, SafeAreaView, Button, ScrollView, Image, StyleSheet, Alert 
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../AuthContext";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {FontAwesome6} from '@expo/vector-icons'
 
 const Home = () => {
   const navigation = useNavigation();
@@ -11,7 +12,7 @@ const Home = () => {
 
   const richiesta = async () => {
     try {
-      const response = await fetch(`http://10.1.1.228:4111/medicine/${userEmail}`, {
+      const response = await fetch(`http://10.1.1.162:4111/medicine/${userEmail}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
       });
@@ -21,7 +22,7 @@ const Home = () => {
       if (data.success) {
         setTableData(data.cont);
       } else {
-        Alert.alert('Errore', data.message);
+        Alert.alert('', data.message);
       }
     } catch (error) {
       console.error(error);
@@ -46,10 +47,12 @@ const Home = () => {
     table: { width: '100%', borderWidth: 1, borderColor: '#ddd', borderRadius: 5, overflow: 'hidden', marginTop: 10 },
     tableRowHeader: { flexDirection: 'row', backgroundColor: '#6200ee', paddingVertical: 10 },
     tableRow: { flexDirection: 'row', borderBottomWidth: 1, borderColor: '#ddd', paddingVertical: 10 },
-    tableCellHeader: { flex: 1, color: 'white', fontWeight: 'bold', textAlign: 'center', paddingHorizontal: 5 },
+    tableCellHeader: { flex: 1, color: 'white', fontWeight: 'bold', textAlign: 'center', paddingHorizontal: 4 },
     tableCellHeader2: { flex: 1, color: 'white', fontWeight: 'bold', textAlign: 'center', paddingHorizontal: 0 },
-    tableCell: { flex: 1, textAlign: 'center', paddingHorizontal: 5 },
+    tableCell: { flex: 1, textAlign: 'center', paddingHorizontal: 4 },
     tableCell2: { flex: 1, textAlign: 'center', paddingHorizontal: 0 },
+    btnpharma: {padding:5, marginTop:25, alignItems:'center'},
+    iconpharma:{marginBottom:5}
   });
 
   return (
@@ -62,7 +65,6 @@ const Home = () => {
           ) : (
             <Button title="Login" onPress={() => navigation.navigate('Login')} />
           )}
-          <Button title="PHARMA" onPress={() => navigation.navigate('Farmacie')} />
         </View>
 
         <View style={styles.divider} />
@@ -102,6 +104,10 @@ const Home = () => {
             Effettua il login per visualizzare i tuoi medicinali
           </Text>
         )}
+        <View style={styles.btnpharma}>
+          <FontAwesome6 name='house-chimney-medical' size={22} style={styles.iconpharma} onPress={() => navigation.navigate("Farmacie")} />
+          <Text>Farmacie</Text>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
